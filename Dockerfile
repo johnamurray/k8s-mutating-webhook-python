@@ -4,6 +4,9 @@ FROM python:3.8
 # set the working directory in the container
 WORKDIR /code
 
+# start the flask server in development mode
+ENV FLASK_ENV=development
+
 # copy the dependencies file to the working directory
 COPY requirements.txt .
 
