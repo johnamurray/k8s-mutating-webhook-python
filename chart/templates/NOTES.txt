@@ -1,0 +1,20 @@
+Congratulations, you have installed the k8s-admission-webhook.
+Deployment: {{ include "webhook.fullname" . }}
+Namespace: {{ .Release.Namespace }}
+
+It's usually more convenient to upgrade the helm deployment, but you can adjust
+the JSONPatch list on-the-fly by updating the {{ include "webhook.fullname" . }} ConfigMap.
+
+Furthermore, the Pods affected by the webhook can be altered by editing the
+namespaceSelector in the MutatingWebhookConfiguration {{ include "webhook.fullname" . }}.
+
+To test the webhook, you can POST the fake AdmissionReview object provided at
+https://github.com/ian-llewellyn/k8s-mutating-webhook-python/blob/master/AdmissionReview.json
+with the following steps:
+
+# Start a port forward
+kubectl port-forward svc/{{ include "webhook.fullname" . }} -n {{ .Release.Namespace }} 8443:443 &
+
+# Send a fake request
+curl -ik -H "Content-Type: application/json" -d @AdmissionReview.json \
+  https://localhost:8443

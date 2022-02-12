@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  webhook:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-02-12T09:32:57.88051045Z"
+    description: A Helm chart for Kubernetes
+    digest: ad785e9691fcb247a7c833a4d34fc0cded221129b74539ee41e703e53ba8285e
+    name: webhook
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/ian-llewellyn/k8s-mutating-webhook-python/master/helm/webhook-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-02-12T09:32:57.879097255Z"

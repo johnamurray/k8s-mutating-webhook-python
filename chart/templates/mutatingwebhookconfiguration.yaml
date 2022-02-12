@@ -1,0 +1,36 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "webhook.fullname" . }}
+  labels:
+    {{- include "webhook.labels" . | nindent 4 }}
+webhooks:
+- name: {{ include "webhook.fullname" . }}.{{ .Values.config.domain }}
+  namespaceSelector:
+    matchLabels:
+      {{- if .Values.config.targetNamespaceLabels }}
+      {{- toYaml .Values.config.targetNamespaceLabels | nindent 6 }}
+      {{- else }}
+      environment: development
+      {{- end }}
+  rules:
+  - operations:
+    - CREATE
+    apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    resources:
+    - pods
+    scope: "Namespaced"
+  clientConfig:
+    caBundle: {{ .Values.tls.caBundle }}
+    service:
+      namespace: {{ .Release.Namespace }}
+      name: {{ include "webhook.fullname" . }}
+  sideEffects: None
+  timeoutSeconds: {{ .Values.config.timeoutSeconds }}
+  failurePolicy: Ignore
+  admissionReviewVersions:
+  - v1
+  reinvocationPolicy: Never
