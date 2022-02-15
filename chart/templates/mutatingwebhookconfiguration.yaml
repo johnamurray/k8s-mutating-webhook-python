@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "webhook.labels" . | nindent 4 }}
 webhooks:
-- name: {{ include "webhook.fullname" . }}.{{ .Values.config.domain }}
+- name: {{ include "webhook.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
   namespaceSelector:
     matchLabels:
       {{- if .Values.config.targetNamespaceLabels }}
@@ -13,6 +13,9 @@ webhooks:
       {{- else }}
       environment: development
       {{- end }}
+  objectSelector:
+    matchLabels:
+      sidecar: wireguard
   rules:
   - operations:
     - CREATE
@@ -22,7 +25,6 @@ webhooks:
     - v1
     resources:
     - pods
-    scope: "Namespaced"
   clientConfig:
     caBundle: {{ .Values.tls.caBundle }}
     service:

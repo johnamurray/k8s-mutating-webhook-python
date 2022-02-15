@@ -1,0 +1,46 @@
+config:
+  targetNamespaceLabels:
+    environment: cicd
+  patchlist: |
+    [
+      {"op": "add", "path": "/metadata/labels/mutating-webhook", "value": "success"},
+      {"op": "add", "path": "/spec/volumes/-",
+        "value": {
+          "name": "wireguard",
+          "secret": {
+            "defaultMode": 420,
+            "secretName": "gitlab-wg0-conf"
+          }
+        }
+      },
+      {"op": "add", "path": "/spec/containers/-",
+        "value": {
+          "image": "ghcr.io/linuxserver/wireguard",
+          "imagePullPolicy": "IfNotPresent",
+          "name": "wireguard",
+          "resources": {},
+          "securityContext": {
+            "allowPrivilegeEscalation": true,
+            "capabilities": {
+              "add": [
+                "NET_ADMIN",
+                "SYS_MODULE"
+              ]
+            },
+            "privileged": true,
+            "readOnlyRootFilesystem": false
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/config",
+              "name": "wireguard"
+            }
+          ]
+        }
+      }
+    ]
+
+image:
+  pullPolicy: IfNotPresent
