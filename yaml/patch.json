@@ -1,0 +1,13 @@
+[
+    {
+        "op": "add",
+        "path": "/volumes/-",
+        "value": {
+            "name": "wireguard",
+            "secret": {
+                "defaultMode": 420,
+                "secretName": "gitlab-wg0-conf"
+            }
+        }
+    }
+]

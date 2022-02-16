@@ -1,7 +1,7 @@
-echo -e "tls:\n  certificate: |"
+printf "tls:\n  certificate: |\n"
 sed 's/^/    /g' sidecar-webhook.pem
-echo "  key: |"
+printf "  key: |\n"
 sed 's/^/    /g' sidecar-webhook.key
-echo -n "  caBundle: \""
+printf  "  caBundle: \""
 cat kube-ca.crt | tr -d '\n'
-echo "\""
+printf  "\"\n"

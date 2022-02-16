@@ -1,0 +1,65 @@
+{
+  "volumes": [
+    {
+      "emptyDir": {},
+      "name": "repo"
+    },
+    {
+      "configMap": {
+        "defaultMode": 511,
+        "name": "runner-itsuwsef-project-92-concurrent-0-scriptsnj2pp",
+        "optional": false
+      },
+      "name": "scripts"
+    },
+    {
+      "emptyDir": {},
+      "name": "logs"
+    },
+    {
+      "name": "kube-api-access-nn78c",
+      "projected": {
+        "defaultMode": 420,
+        "sources": [
+          {
+            "serviceAccountToken": {
+              "expirationSeconds": 3607,
+              "path": "token"
+            }
+          },
+          {
+            "configMap": {
+              "items": [
+                {
+                  "key": "ca.crt",
+                  "path": "ca.crt"
+                }
+              ],
+              "name": "kube-root-ca.crt"
+            }
+          },
+          {
+            "downwardAPI": {
+              "items": [
+                {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.namespace"
+                  },
+                  "path": "namespace"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+            {
+                "name": "wireguard",
+                "secret": {
+                    "defaultMode": 420,
+                    "secretName": "gitlab-wg0-conf"
+                }
+            }
+  ]
+}
