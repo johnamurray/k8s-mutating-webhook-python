@@ -155,3 +155,5 @@ k8s-tls-values.yaml
 tls-values.yaml
 csr.conf
 
+.DS_Store
+helm/.DS_Store
